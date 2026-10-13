@@ -1,0 +1,22 @@
+{
+  "title": "Chatbot vs agent",
+  "lede": "Both use a language model. Only one of them gets things done.",
+  "left": {
+    "label": "Chatbot",
+    "heading": "Answers once",
+    "points": [
+      "Replies from what it was trained on",
+      "One question, one answer",
+      "You do the work afterwards"
+    ]
+  },
+  "right": {
+    "label": "Agent",
+    "heading": "Works towards a goal",
+    "points": [
+      "Plans the steps it needs",
+      "Uses live tools and data",
+      "Acts, then asks you to approve"
+    ]
+  }
+}

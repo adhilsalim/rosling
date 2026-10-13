@@ -1,0 +1,6 @@
+/* section: styles used only by this template. */
+.body{position:absolute;left:var(--pad-x);right:var(--pad-x);top:0;bottom:var(--footer-h);display:flex;flex-direction:column;justify-content:center;padding-bottom:120px}
+.num{font-family:var(--font-mono);font-size:40px;color:var(--muted);margin-bottom:32px;display:flex;align-items:center;gap:20px}
+.num::after{content:"";width:120px;height:2px;background:var(--line)}
+.title{font-weight:300;font-size:150px;line-height:1;letter-spacing:-.02em;max-width:1500px}
+.text{margin-top:40px;font-size:36px;color:var(--muted);max-width:1100px;line-height:1.35}

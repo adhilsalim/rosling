@@ -1,0 +1,43 @@
+{
+  "description": "A title and two to four cards of equal weight, each with a heading and a short text.",
+  "props": {
+    "variant": {
+      "type": "enum",
+      "values": [
+        "light",
+        "dark",
+        "accent"
+      ],
+      "default": "light"
+    },
+    "title": {
+      "type": "text",
+      "required": true,
+      "max": 70
+    },
+    "lede": {
+      "type": "text",
+      "max": 180
+    },
+    "items": {
+      "type": "list",
+      "required": true,
+      "min": 2,
+      "max": 4,
+      "of": {
+        "type": "object",
+        "props": {
+          "title": {
+            "type": "text",
+            "required": true,
+            "max": 40
+          },
+          "text": {
+            "type": "text",
+            "max": 220
+          }
+        }
+      }
+    }
+  }
+}

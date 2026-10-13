@@ -1,0 +1,41 @@
+{
+  "description": "The closing slide. A thank-you, a line of text, and an optional link shown with a QR code.",
+  "props": {
+    "variant": {
+      "type": "enum",
+      "values": [
+        "light",
+        "dark",
+        "accent"
+      ],
+      "default": "dark"
+    },
+    "title": {
+      "type": "text",
+      "max": 40,
+      "default": "Thank you"
+    },
+    "text": {
+      "type": "text",
+      "max": 140
+    },
+    "link": {
+      "type": "url",
+      "description": "Shown as a QR code and as text (not clickable)"
+    },
+    "link_label": {
+      "type": "text",
+      "max": 50,
+      "default": "Slides and code"
+    },
+    "contacts": {
+      "type": "list",
+      "max": 4,
+      "of": {
+        "type": "text",
+        "max": 60
+      },
+      "description": "Names, handles or emails"
+    }
+  }
+}

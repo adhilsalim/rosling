@@ -1,0 +1,29 @@
+{
+  "description": "A section divider. A number, a very large title and one line about what comes next.",
+  "props": {
+    "variant": {
+      "type": "enum",
+      "values": [
+        "light",
+        "dark",
+        "accent"
+      ],
+      "default": "accent"
+    },
+    "number": {
+      "type": "text",
+      "max": 6,
+      "description": "The section number, like 02"
+    },
+    "title": {
+      "type": "text",
+      "required": true,
+      "max": 40
+    },
+    "text": {
+      "type": "text",
+      "max": 120,
+      "description": "One line about this section"
+    }
+  }
+}

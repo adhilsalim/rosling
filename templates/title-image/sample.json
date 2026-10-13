@@ -1,0 +1,12 @@
+{
+  "title": "One picture, explained",
+  "lede": "Use this for a screenshot, a diagram or a photo that the slide talks about.",
+  "bullets": [
+    "What to look at first",
+    "Why it matters"
+  ],
+  "image": "sample.svg",
+  "alt": "A diagram of three connected boxes",
+  "caption": "Figure 1: the part of the system we will build today",
+  "fit": "contain"
+}

@@ -1,0 +1,19 @@
+/* title-image: styles used only by this template. */
+.body{position:absolute;left:var(--pad-x);right:var(--pad-x);top:var(--pad-top);bottom:calc(var(--footer-h) + 64px);display:grid;grid-template-columns:640px 1fr;gap:80px}
+.body.left{grid-template-columns:1fr 640px}
+.body.left .words{order:2}
+.words{display:flex;flex-direction:column}
+.title{font-weight:300;font-size:68px;line-height:1.1;letter-spacing:-.01em}
+.lede{font-size:30px;line-height:1.45;color:var(--muted);margin-top:28px}
+.bullets{list-style:none;margin-top:48px;display:flex;flex-direction:column;gap:22px}
+.bullets li{position:relative;padding-left:40px;font-size:30px;line-height:1.35}
+.bullets li::before{content:"";position:absolute;left:0;top:.45em;width:14px;height:14px;background:var(--accent)}
+
+/* ---- the picture, with corner marks ---- */
+.figure{display:flex;flex-direction:column;min-height:0}
+.frame{position:relative;flex:1;min-height:0;background:var(--surface);overflow:hidden}
+.frame::before,.frame::after{content:"";position:absolute;width:40px;height:40px;border:4px solid var(--accent);z-index:2}
+.frame::before{left:0;top:0;border-right:0;border-bottom:0}
+.frame::after{right:0;bottom:0;border-left:0;border-top:0}
+.media{position:absolute;inset:0;width:100%;height:100%}
+.caption{margin-top:20px;font-size:22px;color:var(--muted)}

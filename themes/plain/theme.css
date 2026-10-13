@@ -1,0 +1,29 @@
+/* plain: the built-in, brand-free theme. A theme sets the tokens below for each variant
+   (light, dark, accent) and styles the footer (.slide-footer). Templates only use the tokens. */
+
+/* ---- tokens: light (the default look) ---- */
+.slide{
+  --bg:#ffffff; --fg:#161616; --muted:#525252; --line:#e0e0e0;
+  --accent:#0f62fe; --accent-strong:#0043ce; --accent-soft:#edf5ff; --surface:#f4f4f4;
+  --over:#da1e28;
+  --font:system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  --font-mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+}
+.slide.dark{
+  --bg:#101418; --fg:#f4f4f4; --muted:#a8a8a8; --line:rgba(255,255,255,.16);
+  --accent:#78a9ff; --accent-strong:#a6c8ff; --accent-soft:#1c2733; --surface:#1c2128;
+  --over:#ff8389;
+}
+.slide.accent{
+  --bg:#0f62fe; --fg:#ffffff; --muted:rgba(255,255,255,.8); --line:rgba(255,255,255,.24);
+  --accent:#ffffff; --accent-strong:#ffffff; --accent-soft:rgba(255,255,255,.12); --surface:rgba(255,255,255,.1);
+  --over:#ffd7d9;
+}
+
+/* ---- footer ---- */
+.slide-footer{position:absolute;left:0;right:0;bottom:0;height:var(--footer-h);padding:0 var(--pad-x);display:flex;align-items:center;justify-content:space-between;
+  border-top:1px solid var(--line);font-size:22px;color:var(--muted);background:var(--bg);z-index:5}
+.slide-footer .event{display:flex;align-items:center;gap:16px}
+.slide-footer .event::before{content:"";width:12px;height:12px;background:var(--accent)}
+.slide-footer .num{font-family:var(--font-mono);letter-spacing:.04em}
+.slide-footer .num b{font-weight:500;color:var(--fg)}

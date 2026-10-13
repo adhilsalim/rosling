@@ -1,0 +1,7 @@
+/* statement: styles used only by this template. */
+.body{position:absolute;left:var(--pad-x);right:var(--pad-x);top:0;bottom:var(--footer-h);display:flex;flex-direction:column;justify-content:center;padding-bottom:60px}
+.kicker{font-family:var(--font-mono);font-size:26px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin-bottom:40px;display:flex;align-items:center;gap:16px}
+.kicker::before{content:"";width:16px;height:16px;background:var(--accent)}
+.statement{font-weight:300;font-size:96px;line-height:1.1;letter-spacing:-.015em;max-width:1600px}
+.statement strong{font-weight:500;color:var(--accent)}
+.by{margin-top:48px;font-size:30px;color:var(--muted)}

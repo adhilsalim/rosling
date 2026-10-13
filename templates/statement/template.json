@@ -1,0 +1,30 @@
+{
+  "description": "One sentence, very large. For the idea you want the room to remember.",
+  "props": {
+    "variant": {
+      "type": "enum",
+      "values": [
+        "light",
+        "dark",
+        "accent"
+      ],
+      "default": "light"
+    },
+    "kicker": {
+      "type": "text",
+      "max": 50
+    },
+    "statement": {
+      "type": "text",
+      "required": true,
+      "max": 140,
+      "description": "**bold** highlights the key words in the accent colour"
+    },
+    "attribution": {
+      "type": "text",
+      "max": 80,
+      "description": "Who said it",
+      "if it is a quote": null
+    }
+  }
+}

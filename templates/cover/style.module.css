@@ -1,0 +1,17 @@
+/* cover: styles used only by this template. */
+.body{position:absolute;left:var(--pad-x);top:0;bottom:var(--footer-h);width:1150px;display:flex;flex-direction:column;justify-content:center;padding-bottom:40px}
+.kicker{font-family:var(--font-mono);font-size:26px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin-bottom:36px}
+.title{font-weight:300;font-size:112px;line-height:1.02;letter-spacing:-.02em}
+.subtitle{font-size:36px;line-height:1.35;color:var(--muted);margin-top:36px;max-width:1000px}
+.speakers{list-style:none;display:flex;gap:64px;margin-top:72px}
+.speakers li{display:flex;flex-direction:column;gap:6px;padding-left:22px;border-left:3px solid var(--accent)}
+.speakers b{font-size:30px;font-weight:500}
+.speakers span{font-size:22px;color:var(--muted)}
+.when{margin-top:48px;font-family:var(--font-mono);font-size:22px;color:var(--muted)}
+
+/* ---- pixel field on the right ---- */
+.field{position:absolute;right:0;top:0;width:528px;height:968px;overflow:hidden}
+.field i{position:absolute;width:40px;height:40px;background:var(--accent-soft);animation:pop .45s cubic-bezier(.3,1.4,.5,1) both}
+.field i.strong{background:var(--accent)}
+@keyframes pop{from{opacity:0;transform:scale(.2)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.field i{animation:none}}

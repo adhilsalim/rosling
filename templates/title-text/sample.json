@@ -1,0 +1,10 @@
+{
+  "title": "What we built and why it matters",
+  "lede": "One sentence that tells the room why these points are worth their attention.",
+  "bullets": [
+    "Point one: the problem you picked, in one line",
+    "Point two: how your solution **actually** works",
+    "Point three: who it helps and how",
+    "Point four: what you would build next"
+  ]
+}

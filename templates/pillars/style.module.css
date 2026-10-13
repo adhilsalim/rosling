@@ -1,0 +1,10 @@
+/* pillars: styles used only by this template. */
+.title{font-weight:300;font-size:68px;line-height:1.1;letter-spacing:-.01em;max-width:1400px}
+.lede{font-size:30px;line-height:1.4;color:var(--muted);margin-top:20px;max-width:1200px}
+.items{display:grid;gap:48px;margin-top:72px;align-items:start}
+.item{padding:40px 36px;background:var(--accent-soft);border-top:6px solid var(--accent);animation:rise .5s cubic-bezier(.2,.7,.3,1) both}
+.num{display:block;font-family:var(--font-mono);font-size:22px;color:var(--accent);margin-bottom:24px}
+.head{font-size:36px;font-weight:500;margin-bottom:20px}
+.text{font-size:24px;line-height:1.5;color:var(--muted)}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.item{animation:none}}

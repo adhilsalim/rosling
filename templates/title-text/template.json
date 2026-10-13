@@ -1,0 +1,35 @@
+{
+  "description": "A title, an optional lede and up to five bullet points.",
+  "props": {
+    "variant": {
+      "type": "enum",
+      "values": [
+        "light",
+        "dark",
+        "accent"
+      ],
+      "default": "light",
+      "description": "The theme's look for this slide"
+    },
+    "title": {
+      "type": "text",
+      "required": true,
+      "max": 80,
+      "description": "Two lines at most. Use a new line to choose where it breaks."
+    },
+    "lede": {
+      "type": "text",
+      "max": 200,
+      "description": "One or two sentences under the title"
+    },
+    "bullets": {
+      "type": "list",
+      "max": 5,
+      "of": {
+        "type": "text",
+        "max": 110
+      },
+      "description": "The points, three to five reads best. **bold** works."
+    }
+  }
+}

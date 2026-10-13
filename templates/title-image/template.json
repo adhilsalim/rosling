@@ -1,0 +1,64 @@
+{
+  "description": "A title, a short text or up to three points, and a large image or video.",
+  "props": {
+    "variant": {
+      "type": "enum",
+      "values": [
+        "light",
+        "dark",
+        "accent"
+      ],
+      "default": "light"
+    },
+    "title": {
+      "type": "text",
+      "required": true,
+      "max": 70
+    },
+    "lede": {
+      "type": "text",
+      "max": 220
+    },
+    "bullets": {
+      "type": "list",
+      "max": 3,
+      "of": {
+        "type": "text",
+        "max": 80
+      }
+    },
+    "image": {
+      "type": "image",
+      "required": true,
+      "description": "A file in assets/ (png, jpg, svg, or an mp4/webm video)"
+    },
+    "alt": {
+      "type": "text",
+      "max": 200,
+      "description": "What the image shows",
+      "for people who can't see it": null
+    },
+    "caption": {
+      "type": "text",
+      "max": 100
+    },
+    "side": {
+      "type": "enum",
+      "values": [
+        "right",
+        "left"
+      ],
+      "default": "right",
+      "description": "Which side the image is on"
+    },
+    "fit": {
+      "type": "enum",
+      "values": [
+        "cover",
+        "contain"
+      ],
+      "default": "cover",
+      "description": "cover fills the box and may crop; contain shows the whole image"
+    }
+  }
+}

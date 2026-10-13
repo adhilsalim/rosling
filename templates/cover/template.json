@@ -1,0 +1,48 @@
+{
+  "description": "The opening slide. A big title, a subtitle and the speakers; the event, date and venue come from deck.json › config.",
+  "props": {
+    "variant": {
+      "type": "enum",
+      "values": [
+        "light",
+        "dark",
+        "accent"
+      ],
+      "default": "dark"
+    },
+    "kicker": {
+      "type": "text",
+      "max": 60,
+      "default": "{event}",
+      "description": "Small line above the title"
+    },
+    "title": {
+      "type": "text",
+      "required": true,
+      "max": 70,
+      "description": "The talk's title. Two lines at most."
+    },
+    "subtitle": {
+      "type": "text",
+      "max": 140
+    },
+    "speakers": {
+      "type": "list",
+      "max": 4,
+      "of": {
+        "type": "object",
+        "props": {
+          "name": {
+            "type": "text",
+            "required": true,
+            "max": 40
+          },
+          "role": {
+            "type": "text",
+            "max": 60
+          }
+        }
+      }
+    }
+  }
+}

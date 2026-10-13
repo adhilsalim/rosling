@@ -1,0 +1,83 @@
+{
+  "description": "Two columns side by side (before and after, chatbot and agent, option A and B). One side can be highlighted.",
+  "props": {
+    "variant": {
+      "type": "enum",
+      "values": [
+        "light",
+        "dark",
+        "accent"
+      ],
+      "default": "light"
+    },
+    "title": {
+      "type": "text",
+      "required": true,
+      "max": 70
+    },
+    "lede": {
+      "type": "text",
+      "max": 160
+    },
+    "left": {
+      "type": "object",
+      "required": true,
+      "props": {
+        "label": {
+          "type": "text",
+          "max": 24,
+          "description": "Small tag above the heading, like BEFORE"
+        },
+        "heading": {
+          "type": "text",
+          "required": true,
+          "max": 40
+        },
+        "points": {
+          "type": "list",
+          "min": 1,
+          "max": 5,
+          "of": {
+            "type": "text",
+            "max": 90
+          }
+        }
+      }
+    },
+    "right": {
+      "type": "object",
+      "required": true,
+      "props": {
+        "label": {
+          "type": "text",
+          "max": 24,
+          "description": "Small tag above the heading, like BEFORE"
+        },
+        "heading": {
+          "type": "text",
+          "required": true,
+          "max": 40
+        },
+        "points": {
+          "type": "list",
+          "min": 1,
+          "max": 5,
+          "of": {
+            "type": "text",
+            "max": 90
+          }
+        }
+      }
+    },
+    "highlight": {
+      "type": "enum",
+      "values": [
+        "none",
+        "left",
+        "right"
+      ],
+      "default": "right",
+      "description": "The side drawn in the accent colour"
+    }
+  }
+}

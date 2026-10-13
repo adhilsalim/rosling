@@ -1,0 +1,18 @@
+{
+  "title": "Three things every agent needs in production",
+  "lede": "Building it is the easy part. These keep it working after launch.",
+  "items": [
+    {
+      "title": "Tracing",
+      "text": "Every decision and tool call is recorded, so you can replay what happened and why."
+    },
+    {
+      "title": "Evaluation",
+      "text": "A test set runs before each release, so a better prompt doesn't quietly break something else."
+    },
+    {
+      "title": "Governance",
+      "text": "Who may use which agent, what it may touch, and an audit log for every action."
+    }
+  ]
+}
