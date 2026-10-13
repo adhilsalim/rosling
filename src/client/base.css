@@ -1,0 +1,55 @@
+/* ==========================================================================
+   Slide base: the frame every slide shares, whatever the theme.
+   Themes set the tokens (colours, fonts, spacing) in their theme.css and style the footer.
+   Templates use the tokens, never fixed colours, so any template works with any theme.
+   ========================================================================== */
+
+/* ---- tokens a theme sets (these are fallbacks) ---- */
+:root{
+  --bg:#ffffff; --fg:#161616; --muted:#525252; --line:#e0e0e0;
+  --accent:#0f62fe; --accent-strong:#0043ce; --accent-soft:#edf5ff; --surface:#f4f4f4;
+  --over:#fa4d56;                       /* reserved: the over-time timers */
+  --font:system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  --font-mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+  --footer-h:96px; --pad-x:120px; --pad-top:104px;
+}
+
+/* ---- the canvas: 1920x1080, scaled to fit by <Stage> ---- */
+.stage-box{position:relative;overflow:hidden}
+.stage{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+.slide{position:relative;width:1920px;height:1080px;overflow:hidden;background:var(--bg);color:var(--fg);font-family:var(--font);-webkit-font-smoothing:antialiased;box-sizing:border-box}
+.slide *,.slide *::before,.slide *::after{box-sizing:border-box;margin:0;padding:0}
+.slide a{pointer-events:none;color:inherit}         /* nothing on a slide is clickable */
+.slide code{font-family:var(--font-mono);font-size:.9em}
+
+/* the content area every template can use: inside the side margins, above the footer */
+.slide .content{position:absolute;left:var(--pad-x);right:var(--pad-x);top:var(--pad-top);bottom:calc(var(--footer-h) + 80px);display:flex;flex-direction:column}
+
+/* ---- still slides (thumbnails, the phone preview): animations jump to their end ---- */
+.slide[data-mode=thumb] *,.slide[data-mode=thumb] *::before,.slide[data-mode=thumb] *::after,
+.slide[data-mode=remote] *,.slide[data-mode=remote] *::before,.slide[data-mode=remote] *::after{
+  animation-duration:0s!important;animation-delay:0s!important;animation-iteration-count:1!important;transition:none!important}
+
+/* ---- presenter timer, centre of the footer: "talk time | slide time", sliding up to the clock and back ----
+   Each face is as tall as the footer, so sliding it up by its own height takes it fully out of view. */
+.deck-timer{position:absolute;left:50%;bottom:0;height:var(--footer-h);transform:translateX(-50%);display:grid;overflow:hidden;
+  font-family:var(--font-mono);font-size:22px;letter-spacing:.04em;color:var(--muted);z-index:6;pointer-events:none}
+.deck-timer .tm-face{grid-area:1/1;display:flex;align-items:center;justify-content:center;gap:24px;white-space:nowrap;height:var(--footer-h);opacity:0}
+.deck-timer .tm-face.on{animation:tm-in .5s cubic-bezier(.4,0,.2,1) both}
+.deck-timer .tm-face.off{animation:tm-out .5s cubic-bezier(.4,0,.2,1) both}
+.deck-timer .tm-sep{width:1px;height:28px;background:currentColor;opacity:.35}
+.deck-timer b{font-weight:500;color:var(--fg)}
+.deck-timer span{transition:color .6s ease}
+.deck-timer .over,.deck-timer .over b{color:var(--over)}
+@keyframes tm-in{from{opacity:1;transform:translateY(100%)}to{opacity:1;transform:none}}
+@keyframes tm-out{from{opacity:1;transform:none}to{opacity:1;transform:translateY(-100%)}}
+@media (prefers-reduced-motion:reduce){.deck-timer .tm-face.on{animation:none;opacity:1}.deck-timer .tm-face.off{animation:none;opacity:0}}
+
+/* ---- a slide that doesn't fit its template ---- */
+.slide.slide-problems{background:#fff1f1;color:#520408;padding:120px;font-family:system-ui,sans-serif}
+.slide-problems h1{font-size:72px;font-weight:600;margin-bottom:16px}
+.slide-problems .file{font-family:var(--font-mono);font-size:30px;margin-bottom:48px;opacity:.7}
+.slide-problems ul{display:flex;flex-direction:column;gap:18px;list-style:none}
+.slide-problems li{font-size:30px;line-height:1.35;padding-left:36px;position:relative}
+.slide-problems li::before{content:"✗";position:absolute;left:0;color:#da1e28}
+.slide-problems p{font-size:26px;margin-top:32px}
