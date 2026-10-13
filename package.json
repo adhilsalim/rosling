@@ -10,6 +10,12 @@
     "react",
     "vite"
   ],
+  "license": "MIT",
+  "author": "Adhil Salim",
+  "homepage": "https://github.com/adhilsalim/rosling#readme",
+  "bugs": {
+    "url": "https://github.com/adhilsalim/rosling/issues"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/adhilsalim/rosling.git"
