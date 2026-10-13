@@ -1,0 +1,14 @@
+{
+  "template": "core/title-text",
+  "time": "2m",
+  "notes": "Open slides/why-slides-as-data.json next to this slide: that file is all there is.",
+  "values": {
+    "title": "Slides are **data**,\ntemplates are code",
+    "lede": "A slide picks a template and fills in its boxes. Fix the template once, and every slide gets the fix.",
+    "bullets": [
+      "A slide is a small JSON file: a template and its values",
+      "Templates list their boxes and limits in template.json",
+      "`rosling check` catches mistakes before the talk"
+    ]
+  }
+}

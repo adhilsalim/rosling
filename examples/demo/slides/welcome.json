@@ -1,0 +1,9 @@
+{
+  "template": "core/cover",
+  "time": "1m",
+  "notes": "Welcome. Everything you see is made with Rosling: this slide is one small JSON file.\nIf you paired a phone, these notes are on it now.",
+  "values": {
+    "title": "Rosling:\npresentations as data",
+    "subtitle": "Write slides as small files. Templates keep every slide consistent, and AI agents can build them too."
+  }
+}

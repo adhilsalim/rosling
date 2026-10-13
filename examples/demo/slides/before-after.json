@@ -1,0 +1,25 @@
+{
+  "template": "core/comparison",
+  "time": "2m",
+  "values": {
+    "title": "Drawing slides vs filling in",
+    "left": {
+      "label": "The usual way",
+      "heading": "Draw every slide",
+      "points": [
+        "Layout, fonts and colours set slide by slide",
+        "A design fix means editing every slide",
+        "Checked by eye, on the projector"
+      ]
+    },
+    "right": {
+      "label": "Rosling",
+      "heading": "Fill in the boxes",
+      "points": [
+        "A small JSON file per slide",
+        "Fix a template once, every slide gets it",
+        "`rosling check` catches mistakes early"
+      ]
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "template": "core/section",
+  "time": "30s",
+  "values": {
+    "number": "02",
+    "title": "How it works",
+    "text": "A slide picks a template and fills in its boxes. Nothing else."
+  }
+}

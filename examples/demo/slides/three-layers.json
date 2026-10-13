@@ -1,0 +1,21 @@
+{
+  "template": "core/pillars",
+  "time": "2m",
+  "values": {
+    "title": "One engine, two ways in",
+    "items": [
+      {
+        "title": "Core",
+        "text": "Loads the deck, checks every slide against its template, and renders it."
+      },
+      {
+        "title": "CLI",
+        "text": "rosling init, dev, check, build and present: for people at a terminal."
+      },
+      {
+        "title": "AI agents",
+        "text": "Every deck comes with an AGENTS.md, so Claude, Codex or Cursor know the rules. An MCP server is coming next."
+      }
+    ]
+  }
+}

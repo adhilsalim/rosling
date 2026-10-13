@@ -1,0 +1,15 @@
+{
+  "template": "core/title-text",
+  "time": "2m",
+  "notes": "Ask the room: who has fixed the same logo or typo on thirty slides?",
+  "values": {
+    "title": "Slide decks get messy",
+    "lede": "Most decks start neat. Then every slide gets nudged by hand, until no two look quite alike.",
+    "bullets": [
+      "Copy a slide to reuse its layout, and the copies drift apart",
+      "A design fix means editing **every slide**, one by one",
+      "Mistakes show up on the projector, not before",
+      "Hard to review, and hard for an AI agent to edit safely"
+    ]
+  }
+}

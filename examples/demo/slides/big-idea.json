@@ -1,0 +1,8 @@
+{
+  "template": "core/statement",
+  "time": "1m",
+  "values": {
+    "kicker": "The rule",
+    "statement": "A slide may only **fill in** a template.\nIt never changes one."
+  }
+}

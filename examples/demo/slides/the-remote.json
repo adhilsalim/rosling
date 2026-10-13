@@ -1,0 +1,17 @@
+{
+  "template": "core/title-image",
+  "time": "2m",
+  "notes": "Hold up the phone. Swipe to show it moving the projector.",
+  "values": {
+    "title": "Your phone is the clicker",
+    "lede": "Click **Phone remote** in the viewer and scan the QR code. Your phone shows the slide, what's next, your notes and both timers.",
+    "bullets": [
+      "Big Next button, or swipe",
+      "Buzzes when a slide runs over"
+    ],
+    "image": "remote.svg",
+    "alt": "A phone showing the remote with a Next button",
+    "fit": "contain",
+    "side": "right"
+  }
+}

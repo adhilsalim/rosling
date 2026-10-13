@@ -1,0 +1,22 @@
+{
+  "title": "Rosling: a demo deck",
+  "theme": "core/plain",
+  "time": "20m",
+  "config": {
+    "event": "Demo Day 2026",
+    "date": "29 October 2026",
+    "venue": "Cochin, India"
+  },
+  "packs": {},
+  "slides": [
+    "welcome",
+    "the-problem",
+    "why-slides-as-data",
+    "part-two",
+    "before-after",
+    "three-layers",
+    "the-remote",
+    "big-idea",
+    "thanks"
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "template": "core/thank-you",
+  "time": "1m",
+  "values": {
+    "text": "Try it:\n`npm install -g rosling`\n`rosling init my-talk`",
+    "link": "https://github.com/adhilsalim/rosling",
+    "link_label": "Code and docs"
+  }
+}
