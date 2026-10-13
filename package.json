@@ -1,0 +1,58 @@
+{
+  "name": "rosling",
+  "version": "0.1.0",
+  "description": "Slides as data: templates with schemas, a presenter app, a phone remote, and tools for AI agents.",
+  "keywords": [
+    "slides",
+    "presentation",
+    "deck",
+    "ai-agents",
+    "react",
+    "vite"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adhilsalim/rosling.git"
+  },
+  "type": "module",
+  "bin": {
+    "rosling": "bin/rosling.js"
+  },
+  "files": [
+    "bin",
+    "dist",
+    "src/client",
+    "themes",
+    "templates",
+    "skills",
+    "docs/DECK-AGENTS.md"
+  ],
+  "engines": {
+    "node": ">=20.19"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.client.json",
+    "demo": "npm run build && node bin/rosling.js dev --deck examples/demo",
+    "dev": "npm run demo",
+    "check": "npm run build && node bin/rosling.js check --deck examples/demo",
+    "prepack": "npm run build"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "^6.1.1",
+    "qrcode": "^1.5.4",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "sirv": "^3.0.2",
+    "vite": "^8.3.1",
+    "ws": "^8.22.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.3",
+    "@types/qrcode": "^1.5.6",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@types/ws": "^8.18.2",
+    "typescript": "^7.0.2"
+  }
+}

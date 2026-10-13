@@ -1,0 +1,17 @@
+# installs and builds
+node_modules/
+dist/
+examples/*/dist/
+*.tgz
+
+# review comments: what you pinned while trying the viewer, and the files written while saving them
+examples/*/comments.json
+comments.json.lock
+comments.json.*.tmp
+
+# local settings and logs
+.DS_Store
+.env
+.env.*
+*.log
+.claude/settings.local.json
