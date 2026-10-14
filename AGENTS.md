@@ -2,7 +2,7 @@
 
 Instructions for AI agents working on the **framework** (this repository). Rules for working on a
 deck are in [docs/DECK-AGENTS.md](docs/DECK-AGENTS.md), which `rosling init` copies into every deck.
-The plan and the reasons behind it are in [docs/PLAN.md](docs/PLAN.md).
+The maintainers keep their plan in docs/PLAN.md, which is not in git; read it if it is there.
 
 ## The contract
 
@@ -39,7 +39,7 @@ templates/<name>/        the core templates (the framework is the "core" pack)
 skills/rosling-review/  the review skill `rosling connect claude` copies into a deck
 themes/plain/            the core theme
 examples/demo/           a deck that uses every core template
-docs/                    PLAN.md, DECK-AGENTS.md
+docs/                    DECK-AGENTS.md, GETTING-STARTED.md (and PLAN.md, the maintainers' notes, not in git)
 ```
 
 ## Remote protocol (src/node/remote.ts ↔ src/client/app/sync.ts)

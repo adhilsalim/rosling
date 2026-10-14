@@ -126,7 +126,7 @@ so any template works with any theme. Built-in: `core/cover`, `core/section`, `c
 `core/title-image`, `core/comparison`, `core/pillars`, `core/statement`, `core/thank-you`; theme `core/plain`.
 
 Packs of templates and themes from other people are listed in `deck.json › packs` (a folder path or an
-installed npm package). See [docs/PLAN.md](docs/PLAN.md) for where this is going.
+installed npm package).
 
 ## For AI agents
 

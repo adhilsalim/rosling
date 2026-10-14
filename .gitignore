@@ -15,3 +15,6 @@ comments.json.*.tmp
 .env.*
 *.log
 .claude/settings.local.json
+
+# our own working notes, not published
+docs/PLAN.md
