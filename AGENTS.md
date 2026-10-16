@@ -29,6 +29,7 @@ src/node/                Node side: TypeScript, compiled with tsc
   mcp.ts                 `rosling mcp`: stdio MCP server; the comment tools, and the protocol
   tools.ts               its deck tools: create_deck, get/update_deck, list_templates, get/add/update/move/remove_slide, check_deck
   connect.ts             `rosling connect <agent>`: writes that agent's MCP config (and Claude's skill)
+  packs.ts               `rosling pack`: packs from GitHub (download, check, add, install, update, remove, list)
   scaffold.ts            init, new slide, new template
 src/client/              the browser app, compiled by Vite at run time (not by tsc)
   main.tsx               routes: #/ viewer, #/remote, #/gallery, #/slide/<n>
@@ -65,6 +66,18 @@ following symlinks. Without `--deck`, the server finds the deck from its working
 so project configs (`.mcp.json`, `.gemini/settings.json`) need no paths. `create_deck` refuses folders
 that already have files. Every write is checked with `loadDeck` and undone if its slide (or deck.json) ends
 up with problems, so a tool call never leaves a broken file. Tools reuse `scaffold.ts`, like the CLI.
+
+## Packs (packs.ts, deck.ts › resolvePacks)
+
+A pack is a GitHub repo with `rosling-pack.json` (name, version, `rosling` version range) and `templates/`
+and/or `themes/`. `deck.json › packs` maps the deck's own name for it (that is what template ids use, so two
+packs both called "minimal" can coexist) to `{ github, ref?, commit }`, or to a folder for a pack being made.
+`pack add` downloads one commit with the user's git (`fetch --depth 1`, no hooks, no password prompts) into
+`.rosling/tmp-*`, runs `checkPack`, asks, then moves it to `.rosling/packs/<name>/` (git-ignored) and pins the
+commit. `checkPack` refuses links, imports other than `rosling`, `react` and the pack's own files (packs
+never get an npm install), CSS pointing outside the pack (https web fonts are fine), and broken templates.
+`loadDeck` only checks that the downloaded commit (`.git/HEAD`) is the pinned one. `pack update` undoes an
+update that adds problems to `rosling check`. Adding a pack is never an MCP tool: it runs someone else's code.
 
 ## Review comments ↔ coding agents (comments.ts, mcp.ts, Comments.tsx)
 

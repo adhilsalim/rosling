@@ -57,6 +57,9 @@ my-talk/
 | `rosling template list [--props]` | Every template you can use, how often it's used, and its boxes |
 | `rosling template usage [id]` | Which slides use a template |
 | `rosling template new <name>` | Make your own template in `templates/<name>` |
+| `rosling pack add github:owner/repo[#tag] [--as <name>]` | Use templates and themes from a GitHub repo (below) |
+| `rosling pack list` / `install` / `update [name]` / `remove <name>` | See, download, update or drop the deck's packs |
+| `rosling pack check [folder]` | Check a pack you are making before you push it |
 | `rosling connect <agent>` | Connect an AI agent through MCP (`claude`, `codex`, `gemini`, `cursor`, `claude-desktop`) |
 
 Options: `--deck <folder>` (default: current folder), `--port <n>` (default 3030), `--no-remote`, `--open`.
@@ -116,6 +119,7 @@ deck.json          title, theme, talk time, shared values ({event}, {date}...), 
 slides/*.json      one file per slide
 assets/            images and videos
 templates/<name>/  the deck's own templates (local/<name>)
+.rosling/packs/    packs downloaded from GitHub (git-ignored; rosling pack install gets them)
 ```
 
 ## Templates and themes
@@ -125,8 +129,39 @@ A template is a folder: `template.json` (description and boxes), `sample.json` (
 so any template works with any theme. Built-in: `core/cover`, `core/section`, `core/title-text`,
 `core/title-image`, `core/comparison`, `core/pillars`, `core/statement`, `core/thank-you`; theme `core/plain`.
 
-Packs of templates and themes from other people are listed in `deck.json › packs` (a folder path or an
-installed npm package).
+## Packs
+
+A pack is a GitHub repo with templates and themes, for any deck to use:
+
+```sh
+rosling pack add github:alice/rosling-pack-minimal#v1.0.0   # download, check, show what's inside, ask
+rosling pack list                                            # what each pack has, and which slides use it
+```
+
+Slides then use `minimal/cover`, and the deck can use the pack's theme (`"theme": "minimal/minimal"`). One
+deck can mix packs: a cover from one, the rest from another. The deck has one theme, and every template
+takes its colours and fonts from it.
+
+- **Pinned.** `deck.json` records the exact commit, so everyone on the deck gets the same files, even if the
+  author moves the tag. The files go to `.rosling/packs/` (git-ignored); after cloning a deck, run
+  `rosling pack install`. `rosling pack update` moves to the newest commit of the tag or branch, and undoes
+  the update if it would break a slide (`--force` keeps it).
+- **Named by the deck.** Two packs that both call themselves `minimal` can be used side by side:
+  `rosling pack add github:bob/rosling-pack-minimal --as bob-minimal`.
+- **Private repos work**, with your own git login for GitHub.
+- **Checked before it's added.** A pack's templates are code that runs in your browser, so `pack add` refuses
+  a pack with links, imports other than `rosling`, `react` and its own files, a broken template, or one made
+  for another rosling version, and asks before adding it.
+
+**Making a pack:** a repo with `rosling-pack.json` at the top, and `templates/<name>/` (made like any
+template) and/or `themes/<name>/theme.css`:
+
+```json
+{ "name": "minimal", "version": "1.0.0", "description": "A quiet theme with big type", "rosling": ">=0.1.0" }
+```
+
+While you work on it, use it from a folder (`"packs": { "minimal": "../rosling-pack-minimal" }`). Run
+`rosling pack check` in it, then push and tag a version. Calling the repo `rosling-pack-<name>` helps people find it.
 
 ## For AI agents
 

@@ -17,6 +17,7 @@ deck.json          title, theme, planned talk time, shared values (config), pack
 slides/<name>.json one file per slide
 assets/            images and videos the slides use
 templates/<name>/  this deck's own templates (ids local/<name>)
+.rosling/packs/    packs downloaded from GitHub (git-ignored; don't edit, rosling pack install replaces them)
 dist/              the built site (generated, don't edit)
 ```
 
@@ -45,7 +46,7 @@ All data files are strict JSON: double quotes, no trailing commas, no comments.
 | `theme` | `<pack>/<theme>`; `core/plain` is built in |
 | `time` | planned length of the talk: `1h 5m`, `30m`, `90s`. The presenter timer turns red after it |
 | `config` | shared values; any slide text can use them as `{event}`, `{date}`, `{venue}` |
-| `packs` | template packs from other people: `"name": "./folder"` or an installed npm package |
+| `packs` | packs of templates and themes from GitHub, pinned to a commit (`rosling pack add` writes them), or `"name": "./folder"` |
 | `slides` | the order of the talk; each name is a file in `slides/` (`welcome` → `slides/welcome.json`) |
 
 A slide file, `slides/agenda.json`:
@@ -99,7 +100,15 @@ values from `deck.json › config`. Never type the event name, date or venue int
   - `style.module.css`: its styles, using the theme's tokens (`--fg`, `--muted`, `--accent`,
     `--accent-soft`, `--surface`, `--line`, `--font`, `--font-mono`), never fixed colours
 - Keep the footer area (bottom 96px) and the centre of the footer free: the presenter timer shows there.
-- Nothing on a slide is clickable. Animations must respect `prefers-reduced-motion`.
+- Nothing on a slide is clickable. Animations must respect `prefers-reduced-motion`, and show their final
+  state when `isStill(useSlide().mode)` is true (thumbnails and the phone's previews).
+
+### Packs
+- `rosling pack list` shows the packs this deck uses, their templates and themes, and which slides use them.
+  Templates from a pack are `<pack>/<template>`; mixing packs in one deck is fine.
+- If `rosling check` says a pack is not downloaded, run `rosling pack install`.
+- A pack is someone else's code. Add one (`rosling pack add github:owner/repo`) only when the user asks
+  for it, and let them confirm. Never edit the files in `.rosling/packs/`.
 
 ## Checking your work
 
@@ -109,7 +118,7 @@ Then look at the slides: `rosling dev` and open the address it prints, or `#/sli
 ## MCP tools
 
 If the `rosling` MCP server is connected, its tools do the tasks above with checked inputs: `get_deck`,
-`list_templates`, `add_slide`, `update_slide`, `move_slide`, `remove_slide`, `check_deck`. A change that
+`list_templates`, `list_packs`, `add_slide`, `update_slide`, `move_slide`, `remove_slide`, `check_deck`. A change that
 doesn't fit its template is not saved, and the tool says why. Use them when they are there; the rules above still apply.
 
 ## Review comments

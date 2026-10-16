@@ -98,6 +98,7 @@ my-talk/
 │   └── agenda.json
 ├── assets/            images and videos the slides use
 ├── templates/         your own templates for this deck (optional)
+├── .rosling/packs/    packs downloaded from GitHub (not committed; rosling pack install)
 ├── AGENTS.md          rules for AI agents (created for you)
 ├── CLAUDE.md          points Claude at AGENTS.md
 └── dist/              the built site (generated, never edit, not committed)
@@ -161,8 +162,9 @@ Each template is a folder with four files. Take [templates/pillars/](../template
 | `Template.tsx` | The React component that draws the slide | same |
 | `style.module.css` | Its styles. They can't leak into other slides | same |
 
-A template's id is `<pack>/<folder>`. The framework's own templates are `core/...`, and the ones in a
-deck's `templates/` folder are `local/...`.
+A template's id is `<pack>/<folder>`. The framework's own templates are `core/...`, the ones in a
+deck's `templates/` folder are `local/...`, and ones from a pack on GitHub use the name the deck gave
+that pack (`rosling pack add github:alice/rosling-pack-minimal` → `minimal/...`).
 
 ### 2c. The tool itself (only if you work on the framework)
 
@@ -176,6 +178,7 @@ rosling/
 │   ├── vite.ts            turns the deck into something the browser app can import
 │   ├── serve.ts           the `dev` and `present` servers
 │   ├── remote.ts          the phone remote: WebSocket hub and pairing
+│   ├── packs.ts           packs from GitHub: download, check, add, update
 │   └── scaffold.ts        init, new slide, new template
 ├── src/client/            the browser app (React), compiled by Vite when you run it
 │   ├── main.tsx           picks the page from the address: viewer, #/remote, #/gallery, #/slide/3
@@ -278,6 +281,8 @@ you press Present (or P)
 | `rosling template list [--props]` | see the templates and their boxes |
 | `rosling template usage [id]` | see which slides use a template |
 | `rosling template new <name>` | make your own template in `templates/<name>` |
+| `rosling pack add github:owner/repo` | use templates and themes someone shared on GitHub |
+| `rosling pack list` / `install` / `update` | see the deck's packs, download them after cloning, update them |
 | `rosling build` | build `dist/` without serving it |
 | `rosling present [--no-build]` | build and serve for the talk |
 
