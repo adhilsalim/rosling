@@ -155,7 +155,7 @@ export function Viewer({ start }: { start: number }) {
         {deck.errors.length > 0 && <div className="deck-errors">{deck.errors.map((e, j) => <p key={j}>{e}</p>)}</div>}
         <div className="preview-frame">
           <Ambient index={i} on={ambient} />
-          <Stage className="preview-stage"><SlideView index={i} mode="preview" /></Stage>
+          <Stage className="preview-stage"><SlideView key={i} index={i} mode="preview" /></Stage>
           {notes.ready && !open && <CommentLayer key={slide.id} slide={slide.id} notes={notes} placing={tool === 'comment'} />}
         </div>
         <div className="meta">
@@ -170,7 +170,7 @@ export function Viewer({ start }: { start: number }) {
 
       <div ref={present} className={'present' + (open ? ' open' : '') + (open && !full ? ' windowed' : '') + (cursor ? ' show-cursor' : '')}
         onClick={needsFull} onMouseMove={onMove} hidden={!open}>
-        {open && <Stage><SlideView index={i} mode="present" timer={{ talkStart: sync.talkStart, slideStart: sync.slideStart, offset: sync.offset,
+        {open && <Stage><SlideView key={i} index={i} mode="present" timer={{ talkStart: sync.talkStart, slideStart: sync.slideStart, offset: sync.offset,
           talkLimit: deck.time * 1000, slideLimit: slide.time * 1000 }} /></Stage>}
         <div className="present-count">{i + 1} / {total}</div>
         <div className="present-hint">Press any key or click for full screen</div>

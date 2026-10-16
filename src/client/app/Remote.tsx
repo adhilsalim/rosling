@@ -81,13 +81,13 @@ export function Remote() {
       <div className="remote-slides">
         <figure className="now">
           <figcaption>{i === 0 ? 'First slide' : 'Now'}</figcaption>
-          <Stage><SlideView index={i} mode="remote" /></Stage>
+          <Stage><SlideView key={i} index={i} mode="remote" /></Stage>
           <p>{slide.title}</p>
         </figure>
         <figure className="up-next">
           <figcaption>Next</figcaption>
           {next ? (
-            <><Stage><SlideView index={i + 1} mode="remote" /></Stage><p>{next.title}</p></>
+            <><Stage><SlideView key={i + 1} index={i + 1} mode="remote" /></Stage><p>{next.title}</p></>
           ) : (
             <><div className="remote-end">End of the talk</div><p className="none">This is the last slide</p></>
           )}
