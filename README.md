@@ -1,5 +1,8 @@
 # Rosling
 
+<img width="2172" height="724" alt="image" src="https://github.com/user-attachments/assets/2ee6c607-6255-49c4-9570-9d2770a81ba8" />
+
+
 Presentations as data. A slide is a small JSON file that picks a **template** and fills in its boxes.
 Templates are React components with a schema, so every slide is checked, a template fix reaches every
 slide at once, and AI agents can build decks reliably. Present from the browser, with talk timers and
