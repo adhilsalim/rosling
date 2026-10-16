@@ -32,7 +32,7 @@ export function initDeck(dir: string, opts: { blank: boolean; title?: string }) 
   write(path.join(root, 'templates', '.gitkeep'), '');
   // in a folder that already has these (an existing repo), keep the user's own
   const keep = (file: string, text: string) => { if (!fs.existsSync(file)) write(file, text); };
-  keep(path.join(root, '.gitignore'), 'dist/\nnode_modules/\n.DS_Store\ncomments.json.lock\n');
+  keep(path.join(root, '.gitignore'), 'dist/\nnode_modules/\n.rosling/\n.DS_Store\ncomments.json.lock\n');
   keep(path.join(root, 'CLAUDE.md'), '@AGENTS.md\n');
   keep(path.join(root, 'AGENTS.md'), fs.readFileSync(path.join(FRAMEWORK_DIR, 'docs/DECK-AGENTS.md'), 'utf8'));
   return root;

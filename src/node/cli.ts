@@ -2,12 +2,14 @@
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { parseArgs } from 'node:util';
+import { createInterface } from 'node:readline';
 import { loadDeck, allErrors, slidesUsing } from './deck.js';
 import { describeSchema } from './schema.js';
 import { dev, build, present } from './serve.js';
 import { initDeck, newSlide, newTemplate } from './scaffold.js';
 import { connect, AGENTS } from './connect.js';
 import { mcp } from './mcp.js';
+import { addPack, installPacks, updatePacks, removePack, listPacks, checkPack, type Preview } from './packs.js';
 
 const HELP = `rosling: presentations as data
 
@@ -21,6 +23,13 @@ const HELP = `rosling: presentations as data
   rosling template list [--props]          every template you can use (and how often it is used)
   rosling template usage [id]              which slides use a template
   rosling template new <name>              make your own template in templates/<name>
+  rosling pack add github:owner/repo[#tag] use templates and themes from a GitHub repo
+        [--as <name>] [--yes]
+  rosling pack list                        the packs this deck uses, and what is in them
+  rosling pack install                     download the packs deck.json pins (after cloning a deck)
+  rosling pack update [name] [--ref <tag>] move packs to the newest commit of their tag or branch
+  rosling pack remove <name>               take a pack out of the deck
+  rosling pack check [folder]              check a pack you are making before you push it
   rosling connect <agent>                  send viewer comments to your coding agent
                                             (${AGENTS.join(', ')})
   rosling mcp                              the MCP server agents start (connect sets it up): make
@@ -47,6 +56,10 @@ const { values: o, positionals: args } = parseArgs({
     time: { type: 'string' },
     title: { type: 'string' },
     props: { type: 'boolean', default: false },
+    as: { type: 'string' },
+    ref: { type: 'string' },
+    yes: { type: 'boolean', short: 'y', default: false },
+    force: { type: 'boolean', default: false },
     help: { type: 'boolean', short: 'h', default: false },
   },
 });
@@ -56,6 +69,74 @@ const serveOpts = { port: +o.port!, remote: !o['no-remote'], open: o.open! };
 
 function printProblems(errors: string[]) {
   for (const e of errors) console.log(`  ✗ ${e}`);
+}
+
+/** Asks yes or no in the terminal; --yes answers yes. */
+async function ask(question: string): Promise<boolean> {
+  if (o.yes) return true;
+  if (!process.stdin.isTTY) throw new Error('there is no terminal to ask in: add --yes to go ahead');
+  const rl = createInterface({ input: process.stdin, output: process.stdout });
+  // Ctrl+C or a closed terminal means no, so the command can still clean up
+  const answer = await new Promise<string>((r) => { rl.on('SIGINT', () => { console.log(); r(''); }); rl.on('close', () => r('')); rl.question(question, r); });
+  rl.close();
+  return /^y(es)?$/i.test(answer.trim());
+}
+
+function showPack(p: Preview) {
+  console.log(`\n  github:${p.repo}${p.ref ? ` ${p.ref}` : ''}  (commit ${p.commit.slice(0, 7)})`);
+  console.log(`  ${p.name} ${p.version}${p.description ? `: ${p.description}` : ''}`);
+  if (p.templates.length) console.log(`  templates: ${p.templates.join(', ')}`);
+  if (p.themes.length) console.log(`  themes:    ${p.themes.join(', ')}`);
+  console.log(`  ${p.files} files, checked: no problems`);
+  if (p.usedBy?.length) console.log(`  used by:   ${p.usedBy.join(', ')}`);
+  console.log("\n  A pack's templates are code: they run in your browser when you show the deck.");
+}
+
+async function pack(sub: string | undefined, arg: string | undefined) {
+  switch (sub) {
+    case 'add': {
+      if (!arg) throw new Error('usage: rosling pack add github:owner/repo[#tag] [--as <name>]');
+      const p = await addPack(deckDir, arg, { as: o.as, confirm: async (p) => { showPack(p); return ask(`  Add it to this deck as "${p.as}"? [y/N] `); } });
+      if (!p) { console.log('  Not added.'); return; }
+      console.log(`\n  Added "${p.as}". Slides use its templates as ${p.as}/<template>${p.themes.length ? `; the deck can use its theme with "theme": "${p.as}/${p.themes[0]}"` : ''}.`);
+      console.log('  deck.json pins this exact commit. Teammates get the same files with: rosling pack install');
+      return;
+    }
+    case 'install':
+    case 'update': {
+      const r = sub === 'install' ? installPacks(deckDir)
+        : await updatePacks(deckDir, arg ? [arg] : [], { ref: o.ref, force: o.force!, confirm: async (p) => { showPack(p); return ask(`  Update "${p.as}" to this? [y/N] `); } });
+      for (const l of r.lines) console.log(`  ${l}`);
+      if (r.failed) process.exitCode = 1;
+      return;
+    }
+    case 'remove': {
+      if (!arg) throw new Error('usage: rosling pack remove <name>');
+      console.log(`  ${removePack(deckDir, arg)}`);
+      return;
+    }
+    case 'list': {
+      for (const p of listPacks(deckDir)) {
+        const what = [p.templates.length && `${p.templates.length} template${p.templates.length === 1 ? '' : 's'}`, p.themes.length && `${p.themes.length} theme${p.themes.length === 1 ? '' : 's'}`].filter(Boolean).join(', ') || 'nothing yet';
+        const use = [p.slides && `${p.slides} slide${p.slides === 1 ? '' : 's'}`, p.isTheme && "the deck's theme"].filter(Boolean).join(' and ');
+        console.log(`  ${p.name.padEnd(14)} ${p.source}${p.version ? ` · version ${p.version}` : ''}${p.commit ? ` · commit ${p.commit}` : ''}`);
+        console.log(`  ${''.padEnd(14)} ${what} · ${use ? `used by ${use}` : 'not used'}`);
+        for (const e of p.problems) console.log(`  ${''.padEnd(14)} ✗ ${e}`);
+      }
+      return;
+    }
+    case 'check': {
+      const dir = path.resolve(arg ?? '.');
+      const r = checkPack(dir);
+      console.log(`  ${r.name || path.basename(dir)} ${r.version}: ${r.templates.length} template(s), ${r.themes.length} theme(s), ${r.files} files`);
+      if (!r.problems.length) { console.log('  ✓ ready to push: others can add it with rosling pack add github:<you>/<repo>'); return; }
+      printProblems(r.problems);
+      process.exitCode = 1;
+      return;
+    }
+    default:
+      throw new Error('usage: rosling pack add | list | install | update | remove | check');
+  }
 }
 
 async function main() {
@@ -74,6 +155,7 @@ async function main() {
     }
     case 'dev': return dev(deckDir, serveOpts);
     case 'mcp': return mcp(deckDir, o.deck === undefined);
+    case 'pack': return pack(sub, arg);
     case 'connect': {
       for (const line of connect(deckDir, sub ?? '', o.deck !== undefined)) console.log(line && `  ${line}`);
       return;

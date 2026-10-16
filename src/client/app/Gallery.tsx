@@ -15,7 +15,7 @@ export function Gallery({ focus }: { focus?: string }) {
       {!list.length && <p className="gallery-empty">No template called "{focus}".</p>}
       {packs.map((pack) => (
         <section key={pack}>
-          <h2>{pack === 'core' ? 'core: built in' : pack === 'local' ? 'local: this deck\'s own' : pack}</h2>
+          <h2>{pack}: {deck.packs.find((p) => p.name === pack)?.source}</h2>
           <div className={'cards' + (focus ? ' single' : '')}>
             {list.filter((t) => t.id.startsWith(pack + '/')).map((t) => (
               <article key={t.id} className="card">

@@ -11,6 +11,7 @@ import { spawnSync } from 'node:child_process';
 import { loadDeck, allErrors, slidesUsing, readJson, type Deck } from './deck.js';
 import { describeSchema } from './schema.js';
 import { initDeck, newSlide } from './scaffold.js';
+import { listPacks } from './packs.js';
 
 /** Where decks may be: the folder `rosling mcp` was started for (or the one holding it, if it is a deck). */
 export interface Workspace { root: string; current: string | null }
@@ -140,6 +141,11 @@ export const DECK_TOOLS = [
     inputSchema: { type: 'object', properties: { ...deckArg, template: { type: 'string', description: 'a template id, like core/title-text' } } },
   },
   {
+    name: 'list_packs',
+    description: 'The packs the deck uses (core, the deck\'s own "local" templates, and packs from GitHub): where each comes from, its templates and themes, and how many slides use it. Adding a pack runs someone else\'s code, so only the user adds one, with: rosling pack add github:owner/repo.',
+    inputSchema: { type: 'object', properties: { ...deckArg } },
+  },
+  {
     name: 'get_slide',
     description: 'One slide\'s file (template, title, time, notes, values), its number, and any problems.',
     inputSchema: { type: 'object', required: ['slide'], properties: { ...deckArg, slide: { type: 'string', description: 'the slide\'s name' } } },
@@ -240,6 +246,7 @@ export function runDeckTool(ws: Workspace, name: string, a: Record<string, unkno
       return [...deck.templates.values()].map((t) =>
         `${t.id} (used ${slidesUsing(deck, t.id).length}×): ${t.description}\n${describeSchema(t.schema)}`).join('\n\n');
     }
+    case 'list_packs': return json(listPacks(deckDir(ws, a.deck)));
     case 'get_slide': {
       const dir = deckDir(ws, a.deck), { id, file } = findSlide(dir, a.slide);
       const deck = loadDeck(dir), n = deck.slides.findIndex((s) => s.id === id);

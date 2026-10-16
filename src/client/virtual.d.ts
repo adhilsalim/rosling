@@ -17,7 +17,7 @@ declare module 'virtual:rosling/deck' {
   }
   export const deck: {
     title: string; time: number; config: Record<string, string>; errors: string[];
-    slides: SlideData[]; templates: TemplateData[];
+    slides: SlideData[]; templates: TemplateData[]; packs: { name: string; source: string }[];
   };
   export const components: Record<string, ComponentType<TemplateProps<any>>>;
   export const Footer: ComponentType<FooterProps> | null;

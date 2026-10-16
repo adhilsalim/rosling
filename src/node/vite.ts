@@ -33,6 +33,7 @@ export function deckModule(deck: Deck): string {
     time: deck.time,
     config: deck.config,
     errors: deck.errors,
+    packs: deck.packs.map((p) => ({ name: p.name, source: p.source })),
     slides: deck.slides.map((s) => ({ id: s.id, template: s.template, title: s.title, time: s.time, notes: s.notes, values: s.values, errors: s.errors })),
     templates: [...deck.templates.values()].map((t) => ({
       id: t.id, description: t.description, schema: t.schema, sample: t.sample, errors: t.errors,
