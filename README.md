@@ -5,9 +5,6 @@ Templates are React components with a schema, so every slide is checked, a templ
 slide at once, and AI agents can build decks reliably. Present from the browser, with talk timers and
 your **phone as the remote**.
 
-Named after [Hans Rosling](https://en.wikipedia.org/wiki/Hans_Rosling), who showed how much a good
-presentation can change what people understand.
-
 ```json
 {
   "template": "core/title-text",
