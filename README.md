@@ -1,180 +1,115 @@
 # Rosling
 
-<img width="2172" height="724" alt="image" src="https://github.com/user-attachments/assets/2ee6c607-6255-49c4-9570-9d2770a81ba8" />
+<img width="1760" height="587" alt="Rosling: presentations as data. A deck in the browser with a talk timer, and a phone used as the remote." src=".github/banner.jpg" />
 
+Make presentations by writing small JSON files, or by asking an AI agent to write them for you.
+Present from the browser and use your phone as the remote.
 
-Presentations as data. A slide is a small JSON file that picks a **template** and fills in its boxes.
-Templates are React components with a schema, so every slide is checked, a template fix reaches every
-slide at once, and AI agents can build decks reliably. Present from the browser, with talk timers and
-your **phone as the remote**.
+Each slide picks a **template** (a layout) and fills in its text:
 
 ```json
 {
   "template": "core/title-text",
-  "time": "2m",
-  "notes": "Keep this one short.",
   "values": {
-    "title": "What we built and why it matters",
-    "bullets": ["A slide is a small JSON file", "`rosling check` catches mistakes before the talk"]
+    "title": "What we built",
+    "bullets": ["The problem", "Our idea", "What's next"]
   }
 }
 ```
 
 ## Quick start
 
-Requires Node 20.19 or later. New here? Read the walkthrough: [docs/GETTING-STARTED.md](docs/GETTING-STARTED.md).
+You need [Node.js](https://nodejs.org) 20.19 or newer.
 
 ```sh
-npm install -g rosling         # once: puts the `rosling` command on your PATH
-
-rosling init my-talk           # a new deck, with AGENTS.md for AI agents
+npm install -g rosling     # install the rosling command (once)
+rosling init my-talk       # make a new deck
 cd my-talk
-rosling dev                    # live viewer; edit the JSON and watch it update
+rosling dev                # open the live preview
 ```
 
-What `rosling init` makes:
+Open the address it prints (usually http://localhost:3030). You'll see three starter slides.
 
+## Make slides with AI (recommended)
+
+Every deck comes with an `AGENTS.md` file that teaches AI coding agents (Claude Code, Codex, Cursor,
+Gemini, Copilot...) how Rosling works. So you can just ask.
+
+1. Keep `rosling dev` running in one terminal.
+2. Open your AI agent in the `my-talk` folder, in a second terminal or your editor.
+3. Ask for what you want:
+
+   > Make me a 10-minute talk about how our app saves people time. About 8 slides.
+
+   > Add a slide after the agenda comparing the old way and the new way.
+
+The preview updates as the agent saves files.
+
+**Give feedback right on the slides.** Connect your agent once:
+
+```sh
+rosling connect claude     # or: codex, gemini, cursor
 ```
-my-talk/
-├── deck.json        the talk: title, theme, time, slide order
-├── slides/          welcome.json, agenda.json, thank-you.json
-├── assets/          images and videos
-├── templates/       your own templates (optional)
-├── AGENTS.md        rules and tasks for AI agents (Codex, Cursor, Copilot, Gemini...)
-└── CLAUDE.md        points Claude Code at AGENTS.md
+
+Restart the agent and ask it to *listen for my slide comments* (in Claude Code: `/rosling-review`).
+In the preview, click **Comment**, click a spot on a slide, and write what should change. Press
+**Send all**. The agent makes the changes and replies on the slide.
+
+**Using Claude Desktop instead?** Run `rosling connect claude-desktop --deck ~/talks`, restart
+Claude Desktop, and ask it to make a talk. Then open it with `rosling dev --deck ~/talks/<deck>`.
+
+## Make slides by hand
+
+Each slide is a file in `slides/`. The order of the talk is the `slides` list in `deck.json`.
+
+```sh
+rosling template list --props                        # see the layouts and what they need
+rosling new the-problem --template core/title-text   # add a slide
 ```
 
-## Commands
+Open `slides/the-problem.json`, change the text, save. The preview updates. Run `rosling check` to
+find anything that doesn't fit (text too long, a missing title...).
 
-| Command | What it does |
+## Make your own template
+
+The built-in templates are a start. When you need a layout they don't have, make your own.
+
+**With AI:** describe the layout to your agent.
+
+> Make a new template called `timeline` that shows 3 to 6 milestones in a row, each with a date and
+> a short label. Then use it for a roadmap slide.
+
+The agent creates it in `templates/timeline/`. Click **Templates** in the preview to see it.
+
+**By hand:**
+
+```sh
+rosling template new timeline
+```
+
+This makes `templates/timeline/` with four files, copied from a simple working template:
+
+| File | What you change |
 |---|---|
-| `rosling init [folder] [--blank]` | Start a deck, with AGENTS.md and CLAUDE.md (`--blank`: no starter slides) |
-| `rosling dev` | Live viewer and template gallery while you edit, with the phone remote |
-| `rosling check` | Check every slide against its template; exits non-zero on problems |
-| `rosling build` | Build the deck into `dist/` |
-| `rosling present [--no-build]` | Build, then serve the deck for the talk, with the phone remote |
-| `rosling new <name> --template <id> [--after <slide>] [--time 2m]` | Add a slide, filled with the template's example |
-| `rosling template list [--props]` | Every template you can use, how often it's used, and its boxes |
-| `rosling template usage [id]` | Which slides use a template |
-| `rosling template new <name>` | Make your own template in `templates/<name>` |
-| `rosling pack add github:owner/repo[#tag] [--as <name>]` | Use templates and themes from a GitHub repo (below) |
-| `rosling pack list` / `install` / `update [name]` / `remove <name>` | See, download, update or drop the deck's packs |
-| `rosling pack check [folder]` | Check a pack you are making before you push it |
-| `rosling connect <agent>` | Connect an AI agent through MCP (`claude`, `codex`, `gemini`, `cursor`, `claude-desktop`) |
+| `template.json` | The boxes the slide fills in (title, items, image...) and their limits |
+| `sample.json` | Example values, shown in the gallery |
+| `Template.tsx` | The React component that draws the slide |
+| `style.module.css` | Its styles |
 
-Options: `--deck <folder>` (default: current folder), `--port <n>` (default 3030), `--no-remote`, `--open`.
+Use it in a slide as `"template": "local/timeline"`. The step-by-step guide is in
+[docs/TEMPLATES.md](docs/TEMPLATES.md).
 
-## AI agents (MCP)
-
-`rosling mcp` is an MCP server that gives an agent tools to **make and edit decks** (`create_deck`,
-`list_templates`, `add_slide`, `update_slide`, `move_slide`, `remove_slide`, `check_deck`...) and to act on
-**review comments** (below). Every change is checked against the template; one that doesn't fit is not saved.
-It works only inside the folder it was given.
-
-For apps that can't run commands, like Claude Desktop, pick a folder for your talks:
+## Present
 
 ```sh
-rosling connect claude-desktop --deck ~/talks
+rosling present
 ```
 
-Restart Claude Desktop and ask *make me a 10-minute talk about ...*. Then `rosling dev --deck ~/talks/<deck>` shows it.
+Open the address, click **Phone remote** and scan the QR code with your phone (same Wi-Fi).
+Press **Present** (or `P`). Your phone shows next/previous buttons, your notes, and the timers.
 
-## Review comments for your coding agent
+## Learn more
 
-In the viewer, pick **Comment** in the top bar, click a point on a slide and write what should change.
-Up to 3 comments wait in the tray; **Send all** hands them to your coding agent. Connect it once per deck:
-
-```sh
-rosling connect claude     # or codex, gemini, cursor
-```
-
-This registers `rosling mcp` (a small MCP server) with the agent. Start the agent in the deck folder and
-ask it to *listen for my slide comments* (in Claude Code: `/rosling-review`). It waits for comments, edits
-the slides, and replies; each pin shows whether it is waiting, being worked on, or done, with the reply.
-With rosling installed globally the config is just `rosling mcp` and can be committed; from a checkout of
-the framework it holds paths for this computer, and `connect` says so.
-
-## Phone remote
-
-`rosling dev` and `rosling present` print a private pairing link in the terminal. The viewer's **Phone remote**
-button shows it as a QR code. Scan it with a phone on the same Wi-Fi. The phone shows:
-
-- big **Previous** / **Next** buttons (or swipe, or a Bluetooth clicker paired with the phone);
-- the current slide, what's next, and your speaker notes;
-- the talk time, the slide time and the clock. They turn red past their planned time, and the phone buzzes (Android).
-
-The laptop, the projector and the phone share one state over a WebSocket, so they always agree.
-Only devices that scanned the code can connect. The code is never shown on the slides.
-`--no-remote` keeps the server on this computer only.
-
-## Presenting
-
-Press **Present** (or `P`) in the viewer. Keys: → ↓ Space PageDown next, ← ↑ PageUp previous,
-Home / End, Esc to stop. The talk and slide timers show in the centre of the footer, and on the phone remote.
-
-## Layout of a deck
-
-```
-deck.json          title, theme, talk time, shared values ({event}, {date}...), packs, slide order
-slides/*.json      one file per slide
-assets/            images and videos
-templates/<name>/  the deck's own templates (local/<name>)
-.rosling/packs/    packs downloaded from GitHub (git-ignored; rosling pack install gets them)
-```
-
-## Templates and themes
-
-A template is a folder: `template.json` (description and boxes), `sample.json` (example values),
-`Template.tsx` and `style.module.css`. Templates use the theme's colour tokens, never fixed colours,
-so any template works with any theme. Built-in: `core/cover`, `core/section`, `core/title-text`,
-`core/title-image`, `core/comparison`, `core/pillars`, `core/statement`, `core/thank-you`; theme `core/plain`.
-
-## Packs
-
-A pack is a GitHub repo with templates and themes, for any deck to use:
-
-```sh
-rosling pack add github:alice/rosling-pack-minimal#v1.0.0   # download, check, show what's inside, ask
-rosling pack list                                            # what each pack has, and which slides use it
-```
-
-Slides then use `minimal/cover`, and the deck can use the pack's theme (`"theme": "minimal/minimal"`). One
-deck can mix packs: a cover from one, the rest from another. The deck has one theme, and every template
-takes its colours and fonts from it.
-
-- **Pinned.** `deck.json` records the exact commit, so everyone on the deck gets the same files, even if the
-  author moves the tag. The files go to `.rosling/packs/` (git-ignored); after cloning a deck, run
-  `rosling pack install`. `rosling pack update` moves to the newest commit of the tag or branch, and undoes
-  the update if it would break a slide (`--force` keeps it).
-- **Named by the deck.** Two packs that both call themselves `minimal` can be used side by side:
-  `rosling pack add github:bob/rosling-pack-minimal --as bob-minimal`.
-- **Private repos work**, with your own git login for GitHub.
-- **Checked before it's added.** A pack's templates are code that runs in your browser, so `pack add` refuses
-  a pack with links, imports other than `rosling`, `react` and its own files, a broken template, or one made
-  for another rosling version, and asks before adding it.
-
-**Making a pack:** a repo with `rosling-pack.json` at the top, and `templates/<name>/` (made like any
-template) and/or `themes/<name>/theme.css`:
-
-```json
-{ "name": "minimal", "version": "1.0.0", "description": "A quiet theme with big type", "rosling": ">=0.1.0" }
-```
-
-While you work on it, use it from a folder (`"packs": { "minimal": "../rosling-pack-minimal" }`). Run
-`rosling pack check` in it, then push and tag a version. Calling the repo `rosling-pack-<name>` helps people find it.
-
-## For AI agents
-
-Every deck gets an `AGENTS.md` ([docs/DECK-AGENTS.md](docs/DECK-AGENTS.md)) with the rules and tasks.
-Working on the framework itself: see [AGENTS.md](AGENTS.md).
-
-## Working on Rosling itself
-
-```sh
-git clone https://github.com/adhilsalim/rosling && cd rosling
-npm install
-npm run demo        # build the CLI and open the demo deck (examples/demo)
-npm link            # optional: use this checkout as the global `rosling` command
-```
-
-`npm publish` builds the CLI first (`prepack`).
+- [docs/GETTING-STARTED.md](docs/GETTING-STARTED.md): a slower walkthrough, for your first deck
+- [docs/TEMPLATES.md](docs/TEMPLATES.md): making templates, step by step
+- [docs/REFERENCE.md](docs/REFERENCE.md): all commands, packs, the phone remote, AI tools (MCP), and working on Rosling itself

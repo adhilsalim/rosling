@@ -40,7 +40,7 @@ templates/<name>/        the core templates (the framework is the "core" pack)
 skills/rosling-review/  the review skill `rosling connect claude` copies into a deck
 themes/plain/            the core theme
 examples/demo/           a deck that uses every core template
-docs/                    DECK-AGENTS.md, GETTING-STARTED.md (and PLAN.md, the maintainers' notes, not in git)
+docs/                    DECK-AGENTS.md, GETTING-STARTED.md, TEMPLATES.md, REFERENCE.md (and PLAN.md, the maintainers' notes, not in git)
 ```
 
 ## Remote protocol (src/node/remote.ts ↔ src/client/app/sync.ts)
