@@ -13,6 +13,7 @@ import { Viewer } from './app/Viewer';
 import { Remote } from './app/Remote';
 import { Gallery } from './app/Gallery';
 import { Stage, SlideView } from './app/Stage';
+import { ThemeProvider } from './app/Theme';
 
 function useRoute() {
   const [hash, setHash] = useState(location.hash);
@@ -33,6 +34,6 @@ function App() {
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <FooterCtx.Provider value={Footer}><App /></FooterCtx.Provider>
+    <ThemeProvider><FooterCtx.Provider value={Footer}><App /></FooterCtx.Provider></ThemeProvider>
   </StrictMode>,
 );

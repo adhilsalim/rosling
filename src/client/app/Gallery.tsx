@@ -2,6 +2,7 @@
    which slides use it, and the boxes (props) it has. #/gallery/<pack>/<name> opens one template. */
 import { deck, type PropData } from 'virtual:rosling/deck';
 import { Stage, SampleView } from './Stage';
+import { ThemeToggle } from './Theme';
 
 export function Gallery({ focus }: { focus?: string }) {
   const list = focus ? deck.templates.filter((t) => t.id === focus) : deck.templates;
@@ -10,7 +11,7 @@ export function Gallery({ focus }: { focus?: string }) {
     <div className="gallery">
       <header className="bar">
         <h1>{focus ? focus : 'Templates'}</h1>
-        <nav>{focus && <a href="#/gallery">All templates</a>}<a href="#/">Back to the deck</a></nav>
+        <nav><ThemeToggle />{focus && <a href="#/gallery">All templates</a>}<a href="#/">Back to the deck</a></nav>
       </header>
       {!list.length && <p className="gallery-empty">No template called "{focus}".</p>}
       {packs.map((pack) => (

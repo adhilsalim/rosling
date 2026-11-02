@@ -11,6 +11,7 @@ import { useSync, type Dir } from './sync';
 import { QrCode } from './parts';
 import { CommentLayer, CommentTray, useComments, type Tool } from './Comments';
 import { Ambient, useAmbientSetting } from './Ambient';
+import { ThemeToggle } from './Theme';
 import { dur } from './time';
 
 const pad = (n: number) => (n < 10 ? '0' : '') + n;
@@ -116,6 +117,7 @@ export function Viewer({ start }: { start: number }) {
       <header className="bar">
         <h1>{deck.title}</h1>
         <nav>
+          <ThemeToggle />
           <button type="button" className="ambient-btn" aria-pressed={ambient} title={`Ambient light: ${ambient ? 'on' : 'off'}`} onClick={toggleAmbient}>
             <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="3" /><path d="M8 .8v2M8 13.2v2M.8 8h2M13.2 8h2M2.9 2.9l1.4 1.4M11.7 11.7l1.4 1.4M2.9 13.1l1.4-1.4M11.7 4.3l1.4-1.4" /></svg>
             Ambient

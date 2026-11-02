@@ -7,6 +7,7 @@ import { Stage, SlideView } from './Stage';
 import { useSync, type Dir } from './sync';
 import { useNow } from './Timer';
 import { clock, elapsed, over } from './time';
+import { ThemeToggle } from './Theme';
 
 export function Remote() {
   const total = deck.slides.length;
@@ -65,6 +66,7 @@ export function Remote() {
       <header className="remote-top">
         <span className={'dot' + (sync.connected ? ' on' : '')} />
         <span>{sync.connected ? 'Connected' : 'Reconnecting…'}</span>
+        <ThemeToggle />
         <span className="remote-count"><b>{i + 1}</b> / {total}</span>
       </header>
 
